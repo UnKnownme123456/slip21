@@ -1,0 +1,62 @@
+//PHP
+Q1)
+<?php
+$temp_array=range(31,45);
+$tot_temp = 0;
+$count = count($temp_array);
+echo "Total temp values are: ".$count;
+foreach($temp_array as $temp)
+{
+$tot_temp += $temp;
+}
+$avg_high_temp = $tot_temp/$count;
+echo "<br> Average Temperature is : ".$avg_high_temp."
+";
+sort($temp_array);
+echo " <br> List of five lowest temperatures :";
+$res1= array_slice($temp_array,0,5);
+foreach($res1 as $high_temp)
+{
+echo "<br> $high_temp";
+}
+echo "<br> List of five highest temperatures :";
+$res1= array_slice($temp_array,10);
+foreach($res1 as $high_temp)
+{
+echo "<br> $high_temp";
+}
+?>
+
+
+
+
+//DS
+Q2A)
+import pandas as p
+import matplotlib.pyplot as plt
+d=p.read_csv('C:\\Users\\DELL\\Untitled Folder\\Iris.csv')
+d[d.Species=='Iris-setosa'].plot.bar(x='PetalLengthCm',y='PetalWidthCm',color='orange', label='Setosa')
+d[d.Species=='Iris-versicolor'].plot.bar(x='PetalLengthCm',y='PetalWidthCm',color='blue', label='versicolor')
+d[d.Species=='Iris-virginica'].plot.bar(x='PetalLengthCm',y='PetalWidthCm',color='green', label='virginica')
+fig.set_xlabel("Petal Length")
+fig.set_ylabel("Petal Width")
+fig.set_title(" Petal Length VS Petal Width")
+#fig=plt.gcf()
+#fig.set_size_inches(12,8)
+plt.show()
+
+
+Q2B)
+import pandas as p
+import matplotlib.pyplot as plt
+d=p.read_csv('C:\\Users\\DELL\\Untitled Folder\\Iris.csv')
+d[d.Species=='Iris-setosa'].plot.hist(x='PetalLengthCm',y='PetalWidthCm',color='orange', label='Setosa')
+d[d.Species=='Iris-versicolor'].plot.hist(x='PetalLengthCm',y='PetalWidthCm',color='blue', label='versicolor')
+d[d.Species=='Iris-virginica'].plot.hist(x='PetalLengthCm',y='PetalWidthCm',color='green', label='virginica')
+fig.set_xlabel("Petal Length")
+fig.set_ylabel("Petal Width")
+fig.set_title(" Petal Length VS Petal Width")
+#fig=plt.gcf()
+#fig.set_size_inches(12,8)
+plt.show()
+

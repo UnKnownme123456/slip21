@@ -1,62 +1,72 @@
-//PHP
-Q1)
-<?php
-$temp_array=range(31,45);
-$tot_temp = 0;
-$count = count($temp_array);
-echo "Total temp values are: ".$count;
-foreach($temp_array as $temp)
+Q1
+#include<stdio.h>
+#include<stdlib.h>
+int main()
 {
-$tot_temp += $temp;
-}
-$avg_high_temp = $tot_temp/$count;
-echo "<br> Average Temperature is : ".$avg_high_temp."
-";
-sort($temp_array);
-echo " <br> List of five lowest temperatures :";
-$res1= array_slice($temp_array,0,5);
-foreach($res1 as $high_temp)
+  int RQ[100],i,n,TotalHeadMoment=0,initial;
+  printf("Enter the no. of request:\n");
+  scanf("%d",&n);
+  printf("Enter the requests sequence\n");
+for(i=0;i<n;i++)
+ scanf("%d",&RQ[i]);
+printf("Enter the initial head position:\n");
+scanf("%d",&initial);
+
+for(i=0;i<n;i++)
 {
-echo "<br> $high_temp";
+TotalHeadMoment=TotalHeadMoment+abs(RQ[i]-initial);
+initial=RQ[i];
 }
-echo "<br> List of five highest temperatures :";
-$res1= array_slice($temp_array,10);
-foreach($res1 as $high_temp)
+printf("Totakl head moment is %d",TotalHeadMoment);
+return 0;
+}
+
+
+Q2
+#include<stdlib.h>
+#include<mpi.h>
+
+#define ARRAY_SIZE 10
+
+int main(int argc,char*argv[])
 {
-echo "<br> $high_temp";
+int rank,size;
+int i,sum=0;
+int data[ARRAY_SIZE];
+
+MPI_Init(&argc,&argv);
+MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+MPI_Comm_size(MPI_COMM_WORLD,&size);
+
+if(rank==0)
+{
+ printf("Generating random data...\n");
+for(i=0;i<ARRAY_SIZE;i++)
+{
+data[i]=rand()%100;
+printf("The array is:%d\n",data[i]);
 }
-?>
+}
+int chunk_size=ARRAY_SIZE;
+int *chunk=(int*)malloc(chunk_size*sizeof(int));
+
+MPI_Scatter(data,chunk_size,MPI_INT,chunk,chunk_size,MPI_INT,0,MPI_COMM_WORLD);
 
 
+int local_sum=0;
+for(i=0;i<chunk_size;i++)
+{
+local_sum +=data[i];
+printf("The local sum is:%d\n",local_sum);
+}
 
+MPI_Reduce(&local_sum,&sum,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
 
-//DS
-Q2A)
-import pandas as p
-import matplotlib.pyplot as plt
-d=p.read_csv('C:\\Users\\DELL\\Untitled Folder\\Iris.csv')
-d[d.Species=='Iris-setosa'].plot.bar(x='PetalLengthCm',y='PetalWidthCm',color='orange', label='Setosa')
-d[d.Species=='Iris-versicolor'].plot.bar(x='PetalLengthCm',y='PetalWidthCm',color='blue', label='versicolor')
-d[d.Species=='Iris-virginica'].plot.bar(x='PetalLengthCm',y='PetalWidthCm',color='green', label='virginica')
-fig.set_xlabel("Petal Length")
-fig.set_ylabel("Petal Width")
-fig.set_title(" Petal Length VS Petal Width")
-#fig=plt.gcf()
-#fig.set_size_inches(12,8)
-plt.show()
-
-
-Q2B)
-import pandas as p
-import matplotlib.pyplot as plt
-d=p.read_csv('C:\\Users\\DELL\\Untitled Folder\\Iris.csv')
-d[d.Species=='Iris-setosa'].plot.hist(x='PetalLengthCm',y='PetalWidthCm',color='orange', label='Setosa')
-d[d.Species=='Iris-versicolor'].plot.hist(x='PetalLengthCm',y='PetalWidthCm',color='blue', label='versicolor')
-d[d.Species=='Iris-virginica'].plot.hist(x='PetalLengthCm',y='PetalWidthCm',color='green', label='virginica')
-fig.set_xlabel("Petal Length")
-fig.set_ylabel("Petal Width")
-fig.set_title(" Petal Length VS Petal Width")
-#fig=plt.gcf()
-#fig.set_size_inches(12,8)
-plt.show()
-
+if(rank==0)
+{
+printf("The final sum is:%d\n",sum);
+}
+free(chunk);
+MPI_Finalize():
+return 0;
+}
